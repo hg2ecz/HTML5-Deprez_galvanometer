@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Deprez műszer</title>
+  <meta charset="utf8">
+</head>
+<body>
+<p>Deprez műszer - értékeit később Raspberry Pi-re akasztott mérőáramkörről kaphatja</p>
+
+<canvas id="rajz1" width="640" height="400" style="border:1px solid #d3d3d3;">A böngésződ még nem képes a HTML5 alapjaira. Próbálkozz például egy friss Firefox böngészővel.</canvas>
+
+<script language="javascript">
+function deprez_init() {
+  var element=document.getElementById("rajz1");
+  var c=element.getContext("2d");
+
+  height = element.height;
+  width = element.width;
+  center = 0.9;
+  ptrlen = 0.9*center;
+  visibleY = (2*center-1)*height;
+
+  return c;
+}
+
+function deprez(value, minvalue, maxvalue) {
+  c.fillStyle="#FFFFFF";
+  c.fillRect(0, 0, width, height);
+  c.fillStyle="#000000";
+  c.fillRect(0, visibleY, width, height);
+
+  c.beginPath();
+  radian = (120*value/(maxvalue-minvalue))/180*Math.PI;
+  x_start = width/2+(center*height-visibleY)*Math.tan(radian);
+  x = width/2 + ptrlen*height*Math.sin(radian);
+  y = height*(center - ptrlen*Math.cos(radian));
+
+  c.lineWidth=2;
+  c.moveTo(x_start, visibleY);
+  c.lineTo(x, y);
+  c.strokeStyle="red";
+  c.stroke();
+  c.closePath();
+}
+
+function deprezrefresh() {
+    deprez(val, -5, 5);
+    val+=diff;
+    if (val > 5 || val < -5) diff=-diff;
+}
+
+var val=-5;
+var diff=0.05;
+var c=deprez_init();
+deprezrefresh();
+setInterval(deprezrefresh, 10);
+</script>
+
+</body>
+</html>
