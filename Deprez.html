@@ -5,11 +5,12 @@
   <meta charset="utf8">
 </head>
 <body>
-<p>Deprez műszer - értékeit később Raspberry Pi-re akasztott mérőáramkörről kaphatja</p>
+<p>Deprez műszer - értékeit később Raspberry Pi-re akasztott mérőáramkörről kaphatja.</p>
 
 <canvas id="rajz1" width="640" height="400" style="border:1px solid #d3d3d3;">A böngésződ még nem képes a HTML5 alapjaira. Próbálkozz például egy friss Firefox böngészővel.</canvas>
 
 <script language="javascript">
+// Author: Krüpl Zsolt <hg2ecz@ham.hu, 2016
 function deprez_init() {
   var element=document.getElementById("rajz1");
   var c=element.getContext("2d");
@@ -23,19 +24,24 @@ function deprez_init() {
   return c;
 }
 
-function deprez(value, minvalue, maxvalue, scalastep, scalatick) {
+function deprez(value, minvalue, maxvalue, scalastep, scalatick, unit) {
   c.fillStyle="#FFFFFF";
   c.fillRect(0, 0, width, height);
   c.fillStyle="#000000";
   c.fillRect(0, visibleY, width, height);
 
 
+  c.save();
   c.beginPath();
   c.lineWidth=1;
   c.strokeStyle="black";
   c.arc(width/2, height*center, height*ptrlen*.97, (1.5-1/3)*Math.PI, (1.5+1/3)*Math.PI);
+  c.font="60px Arial";
+  c.textAlign = "center";
+  c.fillText(unit, width/2, height/2);
   c.stroke();
   c.closePath();
+  c.restore();
 
   c.beginPath();
   c.lineWidth=2;
@@ -89,16 +95,16 @@ function deprez(value, minvalue, maxvalue, scalastep, scalatick) {
 }
 
 function deprezrefresh() {
-    deprez(val, -5, 5, 1, 0.2);
+    deprez(val, -5, 5, 1, 0.2, "V");
     val+=diff;
     if (val > 5 || val < -5) diff=-diff;
 }
 
-var val=-5;
-var diff=0.05;
+var val=0;
+var diff=0.02;
 var c=deprez_init();
 deprezrefresh();
-setInterval(deprezrefresh, 10);
+setInterval(deprezrefresh, 50);
 </script>
 
 </body>
