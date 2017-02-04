@@ -23,28 +23,54 @@ function deprez_init() {
   return c;
 }
 
-function deprez(value, minvalue, maxvalue) {
+function deprez(value, minvalue, maxvalue, scalastep) {
   c.fillStyle="#FFFFFF";
   c.fillRect(0, 0, width, height);
   c.fillStyle="#000000";
   c.fillRect(0, visibleY, width, height);
 
+
   c.beginPath();
+  c.lineWidth=1;
+  c.strokeStyle="black";
+  c.arc(width/2, height*center, height*ptrlen*.97, (1.5-1/3)*Math.PI, (1.5+1/3)*Math.PI);
+  c.stroke();
+  c.closePath();
+
+  c.beginPath();
+  c.lineWidth=3;
+  c.strokeStyle="black";
+
+  for (var i=minvalue; i<=maxvalue; i+=scalastep) {
+    radian = (120*i/(maxvalue-minvalue))/180*Math.PI;
+    x = width/2 + height*ptrlen*.97*Math.sin(radian);
+    y = height*(center - ptrlen*.97*Math.cos(radian));
+    c.moveTo(x, y);
+
+    x = width/2 + height*ptrlen*1.03*Math.sin(radian);
+    y = height*(center - ptrlen*1.03*Math.cos(radian));
+    c.lineTo(x, y);
+  }
+
+  c.stroke();
+  c.closePath();
+
   radian = (120*value/(maxvalue-minvalue))/180*Math.PI;
-  x_start = width/2+(center*height-visibleY)*Math.tan(radian);
-  x = width/2 + ptrlen*height*Math.sin(radian);
+  x_start = width/2+(height*center-visibleY)*Math.tan(radian);
+  x = width/2 + height*ptrlen*Math.sin(radian);
   y = height*(center - ptrlen*Math.cos(radian));
 
+  c.beginPath();
   c.lineWidth=2;
+  c.strokeStyle="red";
   c.moveTo(x_start, visibleY);
   c.lineTo(x, y);
-  c.strokeStyle="red";
   c.stroke();
   c.closePath();
 }
 
 function deprezrefresh() {
-    deprez(val, -5, 5);
+    deprez(val, -5, 5, 1);
     val+=diff;
     if (val > 5 || val < -5) diff=-diff;
 }
