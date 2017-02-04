@@ -23,7 +23,7 @@ function deprez_init() {
   return c;
 }
 
-function deprez(value, minvalue, maxvalue, scalastep) {
+function deprez(value, minvalue, maxvalue, scalastep, scalatick) {
   c.fillStyle="#FFFFFF";
   c.fillRect(0, 0, width, height);
   c.fillStyle="#000000";
@@ -38,9 +38,25 @@ function deprez(value, minvalue, maxvalue, scalastep) {
   c.closePath();
 
   c.beginPath();
+  c.lineWidth=2;
+  c.strokeStyle="black";
+  for (var i=minvalue; i<=maxvalue; i+=scalatick) {
+    radian = (120*i/(maxvalue-minvalue))/180*Math.PI;
+    x = width/2 + height*ptrlen*.97*Math.sin(radian);
+    y = height*(center - ptrlen*.97*Math.cos(radian));
+    c.moveTo(x, y);
+
+    x = width/2 + height*ptrlen*1.0*Math.sin(radian);
+    y = height*(center - ptrlen*1.0*Math.cos(radian));
+    c.lineTo(x, y);
+  }
+  c.stroke();
+  c.closePath();
+
+  c.beginPath();
   c.lineWidth=3;
   c.strokeStyle="black";
-
+  c.textAlign = "center";
   for (var i=minvalue; i<=maxvalue; i+=scalastep) {
     radian = (120*i/(maxvalue-minvalue))/180*Math.PI;
     x = width/2 + height*ptrlen*.97*Math.sin(radian);
@@ -50,8 +66,11 @@ function deprez(value, minvalue, maxvalue, scalastep) {
     x = width/2 + height*ptrlen*1.03*Math.sin(radian);
     y = height*(center - ptrlen*1.03*Math.cos(radian));
     c.lineTo(x, y);
-  }
 
+    x = width/2 + height*ptrlen*1.06*Math.sin(radian);
+    y = height*(center - ptrlen*1.06*Math.cos(radian));
+    c.fillText(i, x, y);
+  }
   c.stroke();
   c.closePath();
 
@@ -70,7 +89,7 @@ function deprez(value, minvalue, maxvalue, scalastep) {
 }
 
 function deprezrefresh() {
-    deprez(val, -5, 5, 1);
+    deprez(val, -5, 5, 1, 0.2);
     val+=diff;
     if (val > 5 || val < -5) diff=-diff;
 }
