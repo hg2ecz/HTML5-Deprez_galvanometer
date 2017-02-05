@@ -25,13 +25,13 @@ function deprez_init() {
 }
 
 function deprez(value, minvalue, maxvalue, scalastep, scalatick, unit) {
+  c.save();
   c.fillStyle="#FFFFFF";
   c.fillRect(0, 0, width, height);
   c.fillStyle="#000000";
   c.fillRect(0, visibleY, width, height);
 
 
-  c.save();
   c.beginPath();
   c.lineWidth=1;
   c.strokeStyle="black";
@@ -41,7 +41,6 @@ function deprez(value, minvalue, maxvalue, scalastep, scalatick, unit) {
   c.fillText(unit, width/2, height/2);
   c.stroke();
   c.closePath();
-  c.restore();
 
   c.beginPath();
   c.lineWidth=2;
@@ -62,6 +61,7 @@ function deprez(value, minvalue, maxvalue, scalastep, scalatick, unit) {
   c.beginPath();
   c.lineWidth=3;
   c.strokeStyle="black";
+  c.font="20px Arial";
   c.textAlign = "center";
   for (var i=minvalue; i<=maxvalue; i+=scalastep) {
     radian = (120*i/(maxvalue-minvalue))/180*Math.PI;
@@ -86,12 +86,20 @@ function deprez(value, minvalue, maxvalue, scalastep, scalatick, unit) {
   y = height*(center - ptrlen*Math.cos(radian));
 
   c.beginPath();
+  c.font="40px Arial";
+  c.textAlign = "center";
+  c.fillStyle="red";
+  c.fillText(value.toFixed(2), width/2, (height+visibleY+20)/2);
+
   c.lineWidth=2;
   c.strokeStyle="red";
   c.moveTo(x_start, visibleY);
   c.lineTo(x, y);
+
   c.stroke();
   c.closePath();
+
+  c.restore();
 }
 
 function deprezrefresh() {
