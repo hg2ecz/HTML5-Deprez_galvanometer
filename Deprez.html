@@ -10,7 +10,7 @@
 <canvas id="rajz1" width="640" height="400" style="border:1px solid #d3d3d3;">A böngésződ még nem képes a HTML5 alapjaira. Próbálkozz például egy friss Firefox böngészővel.</canvas>
 
 <script language="javascript">
-// Author: Krüpl Zsolt <hg2ecz@ham.hu>, 2016
+// Author: Krüpl Zsolt <hg2ecz@ham.hu>, 2017
 function deprez_init() {
   var element=document.getElementById("rajz1");
   var c=element.getContext("2d");
@@ -103,7 +103,7 @@ function deprez(value, minvalue, maxvalue, scalastep, scalatick, unit) {
 }
 
 function deprezrefresh() {
-    deprez(val, -5, 5, 1, 0.2, "V");
+    deprez(val, -5, 5, 1, 0.2, "mA");
     val+=diff;
     if (val > 5 || val < -5) diff=-diff;
 }
