@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Deprez műszer</title>
+  <meta charset="utf8">
+</head>
+<body>
+<p>Deprez műszer - értékeit később Raspberry Pi-re akasztott mérőáramkörről kaphatja.</p>
+
+<div id="wrapper" style="position: relative">
+  <canvas id="deprez-bg" width="640" height="400" style="border:1px; border:1px solid #d3d3d3; position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+  <canvas id="deprez-fg" width="640" height="400" style="border:1px; border:1px solid #d3d3d3; position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
+</div>
+
+<script src="Deprez-layer.js"></script>
+<script>
+
+var val=0;
+var diff=0.02;
+
+var d1=new Deprez("deprez", "mA", -5, 5, 1, 0.2);
+
+function deprezrefresh() {
+  d1.paint(val);
+  val+=diff;
+  if (val > 5 || val < -5) diff=-diff;
+}
+
+deprezrefresh();
+setInterval(deprezrefresh, 50);
+</script>
+
+</body>
+</html>
