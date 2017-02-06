@@ -15,8 +15,7 @@ class Deprez {
 
   paint(value, minvalue, maxvalue, scalastep, scalatick, unit) {
     this.c.save();
-    this.c.fillStyle="#FFFFFF";
-    this.c.fillRect(0, 0, this.width, this.height);
+    this.c.clearRect(0, 0, this.width, this.height);
     this.c.fillStyle="#000000";
     this.c.fillRect(0, this.visibleY, this.width, this.height);
 
